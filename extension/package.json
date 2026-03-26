@@ -1,0 +1,57 @@
+{
+  "name": "burnout-detector",
+  "displayName": "Burnout Detector",
+  "publisher": "lechojun",
+  "description": "Detect developer burnout from behavior data for research purposes",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monolail/Applied_Data_Analysis"
+  },
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "burnout-detector.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "configuration": {
+      "title": "Burnout Detector",
+      "properties": {
+        "burnoutDetector.enableDataCollection": {
+          "type": "boolean",
+          "default": false,
+          "description": "번아웃 감지 연구를 위한 익명화된 데이터 수집 허용 여부"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.110.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.56.1",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
