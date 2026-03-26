@@ -32,6 +32,11 @@
           "type": "boolean",
           "default": false,
           "description": "번아웃 감지 연구를 위한 익명화된 데이터 수집 허용 여부"
+        },
+        "burnoutDetector.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:5000/api/upload",
+          "description": "수집된 데이터를 전송할 서버의 URL 주소"
         }
       }
     }

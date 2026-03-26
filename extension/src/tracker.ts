@@ -28,6 +28,34 @@ export interface TypingEvent {
 }
 
 /**
+ * 언어별 에러 분류 규칙 정의
+ */
+const ERROR_RULES: Record<string, { basicKeywords: string[], basicCodes: (string | number)[] }> = {
+    'python': {
+        basicKeywords: ['indentation', 'expected', 'syntax', 'unexpected token'],
+        basicCodes: ['unused-import', 'line-too-long', 'E0001', 'F401']
+    },
+    'javascript': {
+        basicKeywords: ['expected', 'is not defined', 'unexpected token', 'missing'],
+        basicCodes: ['parsing-error', 'no-unused-vars']
+    },
+    'typescript': {
+        basicKeywords: ['expected', 'is not defined', 'unexpected token', 'missing'],
+        basicCodes: [
+            '2304', // Cannot find name
+            '2552', // Cannot find name (with suggestion)
+            '1005', // Expected ';'
+            '1109', // Expression expected
+            '6133'  // Unused variable
+        ]
+    },
+    'cpp': {
+        basicKeywords: ['expected', 'was not declared', 'missing', 'syntax'],
+        basicCodes: []
+    }
+};
+
+/**
  * 번아웃 감지를 위한 행동 데이터 수집기
  */
 export class BurnoutTracker {
@@ -37,6 +65,7 @@ export class BurnoutTracker {
     private logPath: string;
     private userId: string;
     private isConsentGiven: boolean = false;
+    private activeDiagnostics: Map<string, { startTime: number, diagnostic: vscode.Diagnostic, languageId: string }> = new Map();
 
     // 서버 URL (로컬 백엔드 서버 주소)
     private readonly SERVER_URL = "http://localhost:5000/api/upload";
@@ -76,7 +105,11 @@ export class BurnoutTracker {
         return false;
     }
 
-    public saveLogs() {
+    public async saveLogs() {
+        const config = vscode.workspace.getConfiguration('burnoutDetector');
+        const isCollectionEnabled = config.get<boolean>('enableDataCollection', false);
+        const serverUrl = config.get<string>('serverUrl', 'http://localhost:5000/api/upload');
+
         const data = {
             userId: this.userId,
             timestamp: Date.now(),
@@ -91,16 +124,17 @@ export class BurnoutTracker {
         };
         fs.writeFileSync(this.logPath, JSON.stringify(data, null, 2));
 
-        // 데이터가 일정량 쌓이면 서버로 전송 (예: 이벤트 10개 이상으로 테스트를 위해 낮춤)
-        if (this.isConsentGiven && (this.typingEvents.length + this.diagnosticLogs.length + this.actionLogs.length) >= 10) {
-            this.uploadData(data);
+        // 데이터가 일정량 쌓이고, 동의가 된 경우에만 전송
+        const totalEvents = this.typingEvents.length + this.diagnosticLogs.length + this.actionLogs.length;
+        if (isCollectionEnabled && totalEvents >= 10) {
+            this.uploadData(data, serverUrl);
         }
     }
 
-    private async uploadData(data: any) {
-        console.log("Uploading data to server...", this.userId);
+    private async uploadData(data: any, url: string) {
+        console.log(`Uploading data to ${url}...`, this.userId);
         try {
-            const response = await fetch(this.SERVER_URL, {
+            const response = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
@@ -108,11 +142,10 @@ export class BurnoutTracker {
 
             if (response.ok) {
                 console.log("Upload successful!");
-                // 전송 성공 시 로컬 로그 초기화하여 중복 전송 방지
                 this.typingEvents = [];
                 this.diagnosticLogs = [];
                 this.actionLogs = [];
-                this.saveLogs(); // 초기화된 상태 저장
+                this.saveLogs(); 
             } else {
                 console.error("Upload failed with status:", response.status);
             }
@@ -152,11 +185,15 @@ export class BurnoutTracker {
         event.uris.forEach(uri => {
             const currentDiagnostics = vscode.languages.getDiagnostics(uri);
             const uriStr = uri.toString();
+            
+            // 현재 문서의 languageId 가져오기 (문서가 열려있는 경우)
+            const document = vscode.workspace.textDocuments.find(doc => doc.uri.toString() === uriStr);
+            const languageId = document?.languageId || 'unknown';
 
             currentDiagnostics.forEach(d => {
                 const key = `${uriStr}-${d.message}-${d.range.start.line}-${d.range.start.character}`;
                 if (!this.activeDiagnostics.has(key)) {
-                    this.activeDiagnostics.set(key, { startTime: now, diagnostic: d });
+                    this.activeDiagnostics.set(key, { startTime: now, diagnostic: d, languageId: languageId });
                 }
             });
 
@@ -169,7 +206,7 @@ export class BurnoutTracker {
                     if (!isStillActive) {
                         const endTime = now;
                         const duration = endTime - value.startTime;
-                        const type = this.categorizeError(value.diagnostic.message);
+                        const type = this.categorizeError(value.diagnostic, value.languageId);
 
                         this.diagnosticLogs.push({
                             message: value.diagnostic.message,
@@ -187,11 +224,32 @@ export class BurnoutTracker {
         this.saveLogs();
     }
 
-    private activeDiagnostics: Map<string, { startTime: number, diagnostic: vscode.Diagnostic }> = new Map();
+    public categorizeError(diagnostic: vscode.Diagnostic, languageId: string): ErrorType {
+        const rules = ERROR_RULES[languageId];
+        const message = diagnostic.message.toLowerCase();
+        const code = diagnostic.code?.toString();
 
-    public categorizeError(message: string): ErrorType {
-        const basicKeywords = ['expected', 'unexpected', 'not found', 'cannot find', 'syntax', 'undefined', 'null'];
-        const isBasic = basicKeywords.some(kw => message.toLowerCase().includes(kw));
-        return isBasic ? 'Basic' : 'Complex';
+        // 1. 공통적인 Basic 키워드 (언어 불문)
+        const commonBasicKeywords = ['expected', 'unexpected', 'missing', 'syntax', 'undefined', 'not found', 'cannot find'];
+        
+        // 2. 언어별 규칙 적용
+        if (rules) {
+            // 에러 코드로 판단
+            if (code && rules.basicCodes.map(c => c.toString()).includes(code)) {
+                return 'Basic';
+            }
+            // 언어별 키워드로 판단
+            if (rules.basicKeywords.some(kw => message.includes(kw))) {
+                return 'Basic';
+            }
+        }
+
+        // 3. 공통 키워드로 판단 (fallback)
+        if (commonBasicKeywords.some(kw => message.includes(kw))) {
+            return 'Basic';
+        }
+
+        // 그 외는 복잡한 에러(논리 에러 등)로 분류
+        return 'Complex';
     }
 }
