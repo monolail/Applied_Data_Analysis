@@ -7,8 +7,9 @@
 ## 📅 프로젝트 현황 (Update: 2026-03-28)
 실제 연구 데이터를 수집하기 위해 클라우드 DB 연결 및 백엔드 안정화 작업이 완료되었습니다.
 - **VS Code Extension**: 사용자 행동(타이핑, 에러 해결) 실시간 추적 및 전송 로직 강화.
-- **Express Backend**: 데이터 수신 API 및 자동 재연결(Retry) 로직 구현.
-- **MongoDB Atlas (Cloud)**: 수집된 데이터를 안전하게 저장하는 클라우드 DB 연동 완료.
+- **Render Deployment**: Render 클라우드 서버에 백엔드 배포 완료 및 안정적 운영 중.
+- **MongoDB Atlas (Cloud)**: 수집된 데이터를 안전하게 저장하는 클라우드 DB 연동 및 **IP Whitelist(0.0.0.0/0) 설정** 완료.
+- **Data Verification**: 실제 사용자 로그가 MongoDB에 정상적으로 기록되고 있음을 최종 확인(2026-03-28).
 
 ---
 
@@ -33,13 +34,13 @@
 ## 🏗 시스템 구조 (Architecture)
 
 ```text
-[VS Code Extension] ----(JSON Data)----> [Node.js Backend] ----> [MongoDB Atlas]
- (src/tracker.ts)                        (server.js)              (Cloud Storage)
+[VS Code Extension] ----(JSON Data)----> [Render Backend] ----> [MongoDB Atlas]
+ (src/tracker.ts)                        (server.js)            (Cloud Storage)
 ```
 
 - **Extension**: VS Code 환경의 이벤트를 감지하고 가공하여 서버로 전송합니다.
-- **Backend**: 데이터 유효성을 검사하고 로그를 관리합니다.
-- **Cloud DB**: 24시간 안정적으로 데이터를 저장하여 이후 분석 단계에서 활용합니다.
+- **Backend (Render)**: 데이터 유효성을 검사하고 로그를 관리하며 24시간 가동됩니다.
+- **Cloud DB (Atlas)**: 모든 IP(0.0.0.0/0)에서의 안전한 접근을 허용하여 클라우드 환경에서도 중단 없는 데이터 저장이 가능합니다.
 
 ---
 
@@ -49,7 +50,7 @@
 ```bash
 cd backend
 npm install
-# .env 파일에 MONGODB_URI 설정 확인
+# .env 파일에 MONGODB_URI 설정 확인 (Atlas Connection String)
 node server.js
 ```
 
@@ -61,8 +62,9 @@ node server.js
 ---
 
 ## 📈 향후 계획 (Next Steps)
+*   [x] **클라우드 서버 배포**: Render를 활용한 24시간 수집 서버 운용 완료.
+*   [x] **DB 방화벽 설정**: MongoDB Atlas와 Render 서버 간의 IP 연동 문제 해결.
 *   **언어별 규칙 확장**: Python, C++, JS 등 더 많은 언어의 에러 분류 규칙 추가.
-*   **클라우드 서버 배포**: Render/Railway를 활용한 24시간 수집 서버 운용.
 *   **데이터 상관관계 도출**: 수집된 수치와 실제 피로도 설문 데이터를 대조하여 번아웃 예측 모델 설계.
 
 ---
