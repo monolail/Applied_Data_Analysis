@@ -67,8 +67,8 @@ export class BurnoutTracker {
     private isConsentGiven: boolean = false;
     private activeDiagnostics: Map<string, { startTime: number, diagnostic: vscode.Diagnostic, languageId: string }> = new Map();
 
-    // 서버 URL (로컬 백엔드 서버 주소)
-    private readonly SERVER_URL = "http://localhost:5000/api/upload";
+    // 서버 URL (Render 클라우드 서버 주소)
+    private readonly SERVER_URL = "https://burnout-backend-zr5p.onrender.com/api/upload";
 
     constructor(context: vscode.ExtensionContext) {
         this.logPath = path.join(context.globalStoragePath, 'burnout_log.json');
