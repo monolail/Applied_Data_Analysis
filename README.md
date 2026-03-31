@@ -67,6 +67,11 @@ node server.js
 *   **언어별 규칙 확장**: Python, C++, JS 등 더 많은 언어의 에러 분류 규칙 추가.
 *   **데이터 상관관계 도출**: 수집된 수치와 실제 피로도 설문 데이터를 대조하여 번아웃 예측 모델 설계.
 
+## 배포 방법
+* https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector
+
 ---
+
+
 
 **연구 및 기술 문의**: [monolail](https://github.com/monolail)
