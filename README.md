@@ -1,17 +1,23 @@
 # 🚀 Burnout Detector (Applied Data Analysis Project)
 
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/hojun-lee.burnout-detector?style=flat-square&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector)
+
 개발자 행동 패턴 분석을 통한 **번아웃(Burnout) 징후 감지 및 예측**을 연구 목적으로 개발된 VS Code 확장 프로그램입니다.
 
 ---
 
-## 📅 프로젝트 현황 (Update: 2026-03-28)
+## 📅 프로젝트 현황 (Update: 2026-04-01)
 실제 연구 데이터를 수집하기 위해 클라우드 DB 연결 및 백엔드 안정화 작업이 완료되었습니다.
+- **Visual Studio Marketplace**: 확장 프로그램 정식 업로드 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
 - **VS Code Extension**: 사용자 행동(타이핑, 에러 해결) 실시간 추적 및 전송 로직 강화.
 - **Render Deployment**: Render 클라우드 서버에 백엔드 배포 완료 및 안정적 운영 중.
 - **MongoDB Atlas (Cloud)**: 수집된 데이터를 안전하게 저장하는 클라우드 DB 연동 및 **IP Whitelist(0.0.0.0/0) 설정** 완료.
-- **Data Verification**: 실제 사용자 로그가 MongoDB에 정상적으로 기록되고 있음을 최종 확인(2026-03-28).
+- **Data Verification**: 실제 사용자 로그가 MongoDB에 정상적으로 기록되고 있음을 최종 확인.
 
 ---
+
+## 📥 설치 (Installation)
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector)에서 설치하거나, 마켓플레이스에서 `hojun-lee.burnout-detector`를 검색하세요.
 
 ## 🛠 주요 기능 (Key Features)
 

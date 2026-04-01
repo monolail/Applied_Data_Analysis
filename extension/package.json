@@ -1,7 +1,7 @@
 {
   "name": "burnout-detector",
   "displayName": "Burnout Detector",
-  "publisher": "lechojun",
+  "publisher": "hojun-lee",
   "description": "Detect developer burnout from behavior data for research purposes",
   "version": "0.0.1",
   "repository": {
@@ -35,7 +35,7 @@
         },
         "burnoutDetector.serverUrl": {
           "type": "string",
-          "default": "http://localhost:5000/api/upload",
+          "default": "https://burnout-backend-zr5p.onrender.com/api/upload",
           "description": "수집된 데이터를 전송할 서버의 URL 주소"
         }
       }

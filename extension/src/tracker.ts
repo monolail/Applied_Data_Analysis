@@ -108,7 +108,7 @@ export class BurnoutTracker {
     public async saveLogs() {
         const config = vscode.workspace.getConfiguration('burnoutDetector');
         const isCollectionEnabled = config.get<boolean>('enableDataCollection', false);
-        const serverUrl = config.get<string>('serverUrl', 'http://localhost:5000/api/upload');
+        const serverUrl = config.get<string>('serverUrl', 'https://burnout-backend-zr5p.onrender.com/api/upload');
 
         const data = {
             userId: this.userId,
