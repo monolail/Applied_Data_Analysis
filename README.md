@@ -7,12 +7,12 @@
 ---
 
 ## 📅 프로젝트 현황 (Update: 2026-04-03)
-번아웃 감지의 정밀도를 높이기 위해 대대적인 **v0.2.1 업데이트**가 완료되었습니다.
-- **Visual Studio Marketplace**: v0.2.1 정식 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
-- **Behavior Tracking Expansion**: 파일 전환(Context Switching), 유휴 시간(Idle Time), 복사/붙여넣기 비율 등 핵심 번아웃 지표 추가 수집.
-- **Backend Stability**: MongoDB 연결 로직 리팩토링 및 헬스체크 강화(`dbStatus` 실시간 모니터링).
-- **Upload Resilience**: 업로드 실패 시 **지수 백오프(Exponential Backoff)** 기반의 재시도 로직 도입으로 데이터 유실 방지.
-- **Data Verification**: v0.2.0 이상의 데이터 형식이 MongoDB Atlas에 정상적으로 기록되고 있음을 최종 확인.
+연구 참여율 극대화 및 글로벌 유저 확보를 위한 **v0.2.2 업데이트**가 완료되었습니다.
+- **Visual Studio Marketplace**: v0.2.2 글로벌 버전 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
+- **Internationalization (i18n)**: 영문 메시지 지원을 통해 전 세계 개발자(Global Users) 수집 기반 마련.
+- **Earnest Outreach**: 연구의 진정성과 간절함을 담은 이중 언어(Bilingual) 동의 메시지 도입으로 참여율 유도.
+- **Improved UX**: "동료 개발자의 졸업 연구를 도와달라"는 메시지를 통해 사용자의 심리적 유대감 및 연구 협조도 향상.
+- **Data Verification**: v0.2.1 이후 도입된 정밀 지표(유휴 시간, 파일 전환 등)가 실시간으로 수집되고 있음을 최종 확인.
 
 ---
 
@@ -37,7 +37,7 @@
 *   **에러 분류**: 단순 오타(Basic)와 복잡한 논리 에러(Complex)를 구분하여 해결 패턴의 차이를 분석합니다.
 
 ### 4. 데이터 익명성 및 보안
-*   **사용자 동의(Consent)**: 최초 실행 시 데이터 수집 동의 여부를 확인합니다.
+*   **사용자 동의(Consent)**: 최초 실행 시 간절함이 담긴 메시지를 통해 데이터 수집 동의 여부를 확인합니다.
 *   **익명화**: 모든 데이터는 랜덤하게 생성된 익명 ID와 연결되며 실제 코드 내용은 포함되지 않습니다.
 
 ---
@@ -46,10 +46,10 @@
 
 ```text
 [VS Code Extension] ----(JSON Data)----> [Render Backend] ----> [MongoDB Atlas]
- (v0.2.1 Update)                         (Health Check)         (Cloud Storage)
+ (v0.2.2 Global Ver.)                    (Health Check)         (Cloud Storage)
 ```
 
-- **Extension**: VS Code 환경의 이벤트를 감지하고 지수 백오프 로직을 통해 안정적으로 전송합니다.
+- **Extension**: 글로벌 유저를 위해 다국어 메시지를 지원하며 안정적으로 데이터를 전송합니다.
 - **Backend (Render)**: MongoDB 연결 상태를 실시간 모니터링하며 데이터 유효성을 검사합니다.
 - **Cloud DB (Atlas)**: 모든 IP(0.0.0.0/0)에서의 안전한 접근을 허용하여 클라우드 환경에서도 중단 없는 데이터 저장이 가능합니다.
 
@@ -73,16 +73,14 @@ node server.js
 ---
 
 ## 📈 향후 계획 (Next Steps)
-*   [x] **클라우드 서버 배포**: Render를 활용한 24시간 수집 서버 운용 완료.
+*   [x] **글로벌 배포**: 영문 메시지 지원을 통한 전 세계 유저 수집 시작.
 *   [x] **DB 안정화**: MongoDB Atlas 연결 리팩토링 및 재시도 로직 구현 완료.
-*   [x] **수집 지표 확장**: 파일 전환, 유휴 시간, 복사/붙여넣기 등 정밀 지표 추가 완료.
+*   [x] **참여율 최적화**: 심리적 유대감을 강조한 동의 메시지 업데이트 완료.
 *   **언어별 규칙 확장**: Python, C++, JS 등 더 많은 언어의 에러 분류 규칙 추가.
 *   **데이터 상관관계 도출**: 수집된 수치와 실제 피로도 설문 데이터를 대조하여 번아웃 예측 모델 설계.
 
-## 📥 설치 (Installation)                                                                               
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector)에서 설치하거나, 마켓플레이스에서 `hojun-lee.burnout-detector`를 검색하세요.           
-## 🛠 주요 기능 (Key Features)                                                                               │
-연구 데이터 확보를 위해 다음과 같은 세부 지표를 수집합니다.   
+## 배포 방법
+* https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector
 
 ---
 
