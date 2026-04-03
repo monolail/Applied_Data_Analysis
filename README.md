@@ -79,8 +79,10 @@ node server.js
 *   **언어별 규칙 확장**: Python, C++, JS 등 더 많은 언어의 에러 분류 규칙 추가.
 *   **데이터 상관관계 도출**: 수집된 수치와 실제 피로도 설문 데이터를 대조하여 번아웃 예측 모델 설계.
 
-## 배포 방법
-* https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector
+## 📥 설치 (Installation)                                                                               
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector)에서 설치하거나, 마켓플레이스에서 `hojun-lee.burnout-detector`를 검색하세요.           
+## 🛠 주요 기능 (Key Features)                                                                               │
+연구 데이터 확보를 위해 다음과 같은 세부 지표를 수집합니다.   
 
 ---
 
