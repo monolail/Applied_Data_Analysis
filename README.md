@@ -6,13 +6,14 @@
 
 ---
 
-## 📅 프로젝트 현황 (Update: 2026-04-03)
-연구 참여율 극대화 및 글로벌 유저 확보를 위한 **v0.2.2 업데이트**가 완료되었습니다.
-- **Visual Studio Marketplace**: v0.2.2 글로벌 버전 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
+## 📅 프로젝트 현황 (Update: 2026-04-04)
+연구 참여율 극대화 및 글로벌 유저 확보를 위한 **v0.2.3 업데이트**가 완료되었습니다. 현재 활발하게 **홍보 진행 중**이며, **최신 .vsix 파일**도 업데이트되었습니다.
+- **Visual Studio Marketplace**: v0.2.3 글로벌 버전 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
 - **Internationalization (i18n)**: 영문 메시지 지원을 통해 전 세계 개발자(Global Users) 수집 기반 마련.
 - **Earnest Outreach**: 연구의 진정성과 간절함을 담은 이중 언어(Bilingual) 동의 메시지 도입으로 참여율 유도.
 - **Improved UX**: "동료 개발자의 졸업 연구를 도와달라"는 메시지를 통해 사용자의 심리적 유대감 및 연구 협조도 향상.
 - **Data Verification**: v0.2.1 이후 도입된 정밀 지표(유휴 시간, 파일 전환 등)가 실시간으로 수집되고 있음을 최종 확인.
+- **Latest Distribution**: 최신 기능을 포함한 `.vsix` 파일 패키징 및 마켓플레이스 최신화 완료.
 
 ---
 
@@ -46,7 +47,7 @@
 
 ```text
 [VS Code Extension] ----(JSON Data)----> [Render Backend] ----> [MongoDB Atlas]
- (v0.2.2 Global Ver.)                    (Health Check)         (Cloud Storage)
+ (v0.2.3 Global Ver.)                    (Health Check)         (Cloud Storage)
 ```
 
 - **Extension**: 글로벌 유저를 위해 다국어 메시지를 지원하며 안정적으로 데이터를 전송합니다.
