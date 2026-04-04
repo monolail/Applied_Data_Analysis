@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const helmet = require('helmet');
 require('dotenv').config();
 
@@ -11,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 // 미들웨어 설정
 app.use(helmet()); 
 app.use(cors());
-app.use(bodyParser.json({ limit: '1mb' })); 
+app.use(express.json({ limit: '1mb' })); 
 
 // MongoDB 연결 설정
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -21,21 +20,30 @@ if (!MONGODB_URI) {
     process.exit(1);
 }
 
+// Mongoose 연결 이벤트 모니터링
+mongoose.connection.on('connected', () => {
+    console.log('✅ MongoDB Atlas Connected Successfully');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('❌ MongoDB Connection Error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.warn('⚠️ MongoDB Disconnected. Attempting to reconnect...');
+});
+
 const connectDB = async () => {
     try {
         await mongoose.connect(MONGODB_URI, {
-            serverSelectionTimeoutMS: 5000, // 5초 이내에 서버 선택 실패 시 에러
-            socketTimeoutMS: 45000,        // 45초 후 소켓 타임아웃
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
         });
-        console.log('✅ MongoDB Atlas Connected Successfully');
     } catch (err) {
-        console.error('❌ MongoDB Connection Error:', err.message);
-        // 5초 후 재시도
+        console.error('❌ Initial MongoDB Connection Failed:', err.message);
         setTimeout(connectDB, 5000);
     }
 };
-
-connectDB();
 
 // 번아웃 로그 스키마 정의
 const BurnoutLogSchema = new mongoose.Schema({
@@ -54,7 +62,8 @@ app.get('/health', (req, res) => {
     res.status(200).json({ 
         status: 'OK', 
         time: new Date().toISOString(),
-        dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+        dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 
+                  mongoose.connection.readyState === 2 ? 'Connecting' : 'Disconnected'
     });
 });
 
@@ -62,6 +71,11 @@ app.get('/health', (req, res) => {
 app.post('/api/upload', async (req, res) => {
     try {
         const { userId, summary } = req.body;
+        
+        if (!userId) {
+            return res.status(400).json({ error: 'userId is required' });
+        }
+
         console.log(`[${new Date().toISOString()}] Received data from user: ${userId}`);
         
         if (summary) {
@@ -81,8 +95,10 @@ app.post('/api/upload', async (req, res) => {
     }
 });
 
-// 서버 시작
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`Health check available at: http://localhost:${PORT}/health`);
+// 서버 시작 (DB 연결 시도 후)
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server is running on port ${PORT}`);
+        console.log(`Health check available at: http://localhost:${PORT}/health`);
+    });
 });

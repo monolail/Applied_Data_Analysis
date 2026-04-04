@@ -20,6 +20,11 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.languages.onDidChangeDiagnostics(e => tracker?.trackDiagnostics(e))
     );
+
+    // 5. 파일 전환 추적 (v0.2.0 추가)
+    context.subscriptions.push(
+        vscode.window.onDidChangeActiveTextEditor(e => tracker?.trackFileSwitch(e))
+    );
 }
 
 export function deactivate() {

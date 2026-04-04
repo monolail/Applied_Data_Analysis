@@ -2,11 +2,12 @@
   "name": "burnout-detector",
   "displayName": "Burnout Detector",
   "publisher": "hojun-lee",
-  "description": "Detect developer burnout from behavior data for research purposes",
-  "version": "0.0.1",
+  "description": "Help a desperate student's research on developer burnout. Anonymous behavior data collection for science.",
+  "version": "0.2.3",
+  "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/monolail/Applied_Data_Analysis"
+    "url": "https://github.com/monolail/burnout-detector"
   },
   "engines": {
     "vscode": "^1.110.0"
@@ -31,7 +32,7 @@
         "burnoutDetector.enableDataCollection": {
           "type": "boolean",
           "default": false,
-          "description": "번아웃 감지 연구를 위한 익명화된 데이터 수집 허용 여부"
+          "description": "번아웃 감지 연구를 위한 익명화된 데이터 수집 허용 여부 (v0.2.0: 파일 전환, 유휴 시간, 복사/붙여넣기 포함)"
         },
         "burnoutDetector.serverUrl": {
           "type": "string",
