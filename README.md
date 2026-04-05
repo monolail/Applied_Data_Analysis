@@ -6,6 +6,12 @@
 
 ---
 
+## 📅 프로젝트 현황 (Update: 2026-04-05)
+홍보 채널 다각화를 통해 연구 데이터 수집 속도를 높이고 있습니다.
+- **Global Outreach (Reddit)**: `r/vscode`, `r/SideProject` 등 글로벌 개발자 커뮤니티에 연구 목적 홍보 게시물 게시 및 유저 피드백 수집 중.
+- **Domestic Outreach (University)**: 에브리타임, 캠퍼스픽 등 대학생 커뮤니티를 대상으로 "공대생 졸업 연구 지원" 캠페인 진행 및 설문 참여 유도.
+- **Visual Studio Marketplace**: v0.2.3 글로벌 버전 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
+
 ## 📅 프로젝트 현황 (Update: 2026-04-04)
 연구 참여율 극대화 및 글로벌 유저 확보를 위한 **v0.2.3 업데이트**가 완료되었습니다. 현재 활발하게 **홍보 진행 중**이며, **최신 .vsix 파일**도 업데이트되었습니다.
 - **Visual Studio Marketplace**: v0.2.3 글로벌 버전 배포 완료 [[설치하기]](https://marketplace.visualstudio.com/items?itemName=hojun-lee.burnout-detector).
