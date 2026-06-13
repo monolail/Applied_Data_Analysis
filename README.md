@@ -92,8 +92,11 @@
 *   **검증 방법**: 일원 배치 분산 분석(One-way ANOVA)을 통해 세션 간 지표 비교.
 *   **주요 결과**:
     *   **타이핑 패턴 (Typing Chars)**: 세션 간 유의미한 차이 발생 ($p < 0.05$).
+        ![Typing Chars Plot](./reports/figures/plot_1.png)
     *   **유휴 시간 (Idle Time)**: 작업 몰입도에 따라 세션별로 뚜렷한 차이 관찰.
+        ![Idle Time Plot](./reports/figures/plot_2.png)
     *   **에러 해결 (Errors Resolved)**: 특정 세션에서는 집중적인 에러 해결 패턴이 나타남.
+        ![Errors Resolved Plot](./reports/figures/plot_3.png)
 *   **결론**: 개발자의 행동은 시간에 따라 고정된 것이 아니라, **작업의 성격이나 당일의 컨디션(번아웃 상태 등)에 따라 세션 단위로 변동**됨을 통계적으로 확인했습니다.
 
 ---
